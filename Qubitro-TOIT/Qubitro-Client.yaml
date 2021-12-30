@@ -1,0 +1,10 @@
+# filename: Qubitro-Client.yaml
+
+# This app specification file executes the 'Weather Station' app on install
+# and subsequently every 5 seconds.
+
+name: Qubitro Client
+entrypoint: Qubitro-Client.toit
+triggers:
+  on_install: true
+  on_interval: 5s
