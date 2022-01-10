@@ -7,8 +7,11 @@
 #define   MESH_PASSWORD   "MESHpassword" //password for your MESH
 #define   MESH_PORT       5555 //default port
 
+//LED
+#define LED D0
+
 //Number for this node
-int nodeNumber = 100;
+int nodeNumber = 3;
 
 //String to send to other nodes with sensor readings
 String readings;
@@ -26,9 +29,10 @@ Task taskSendMessage(TASK_SECOND * 5 , TASK_FOREVER, &sendMessage);
 String getReadings () {
   JSONVar jsonReadings;
   jsonReadings["node"] = nodeNumber;
-  jsonReadings["Floor5_temp"] =91 ;
-  jsonReadings["Floor5_hum_"] =81;
-  jsonReadings["Floor5_pres"] = 21;
+  jsonReadings["Floor3_temp"] = rand() % 45 - 10 ;
+  jsonReadings["Floor3_humi"] = rand() % 55 - 10;
+  jsonReadings["Floor3_pres"] = rand() % 85 - 50;
+  jsonReadings["Floor3_Alti"] = rand() % 175 - 105;
   readings = JSON.stringify(jsonReadings);
   return readings;
 }
@@ -52,12 +56,12 @@ void changedConnectionCallback() {
 }
 
 void nodeTimeAdjustedCallback(int32_t offset) {
-  Serial.printf("Adjusted time %u. Offset = %d\n", mesh.getNodeTime(),offset);
+  Serial.printf("Adjusted time %u. Offset = %d\n", mesh.getNodeTime(), offset);
 }
 
 void setup() {
   Serial.begin(115200);
-  
+  pinMode(LED, OUTPUT);
 
   //mesh.setDebugMsgTypes( ERROR | MESH_STATUS | CONNECTION | SYNC | COMMUNICATION | GENERAL | MSG_TYPES | REMOTE ); // all types on
   mesh.setDebugMsgTypes( ERROR | STARTUP );  // set before init() so that you can see startup messages

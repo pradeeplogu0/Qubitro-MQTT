@@ -7,8 +7,11 @@
 #define   MESH_PASSWORD   "MESHpassword" //password for your MESH
 #define   MESH_PORT       5555 //default port
 
+//LED
+#define LED D0
+
 //Number for this node
-int nodeNumber = 100;
+int nodeNumber = 2;
 
 //String to send to other nodes with sensor readings
 String readings;
@@ -26,9 +29,10 @@ Task taskSendMessage(TASK_SECOND * 5 , TASK_FOREVER, &sendMessage);
 String getReadings () {
   JSONVar jsonReadings;
   jsonReadings["node"] = nodeNumber;
-  jsonReadings["Floor5_temp"] =91 ;
-  jsonReadings["Floor5_hum_"] =81;
-  jsonReadings["Floor5_pres"] = 21;
+  jsonReadings["Floor2_temp"] = rand() % 35 - 10 ;
+  jsonReadings["Floor2_humi"] = rand() % 55 - 10;
+  jsonReadings["Floor2_pres"] = rand() % 95 - 50;
+  jsonReadings["Floor2_Alti"] = rand() % 45 - 105;
   readings = JSON.stringify(jsonReadings);
   return readings;
 }
@@ -36,11 +40,16 @@ String getReadings () {
 void sendMessage () {
   String msg = getReadings();
   mesh.sendBroadcast(msg);
+  
 }
 
 // Needed for painless library
 void receivedCallback( uint32_t from, String &msg ) {
   Serial.println(msg.c_str());
+  digitalWrite(LED, HIGH); 
+  delay(1000);                           // wait for 1 second.
+  digitalWrite(LED, LOW);                // turn the LED on.
+  delay(1000); // wait for 1 second.
 }
 
 void newConnectionCallback(uint32_t nodeId) {
@@ -52,12 +61,12 @@ void changedConnectionCallback() {
 }
 
 void nodeTimeAdjustedCallback(int32_t offset) {
-  Serial.printf("Adjusted time %u. Offset = %d\n", mesh.getNodeTime(),offset);
+  Serial.printf("Adjusted time %u. Offset = %d\n", mesh.getNodeTime(), offset);
 }
 
 void setup() {
   Serial.begin(115200);
-  
+  pinMode(LED, OUTPUT);
 
   //mesh.setDebugMsgTypes( ERROR | MESH_STATUS | CONNECTION | SYNC | COMMUNICATION | GENERAL | MSG_TYPES | REMOTE ); // all types on
   mesh.setDebugMsgTypes( ERROR | STARTUP );  // set before init() so that you can see startup messages
