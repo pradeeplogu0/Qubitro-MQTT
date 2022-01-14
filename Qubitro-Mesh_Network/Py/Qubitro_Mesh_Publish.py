@@ -7,8 +7,8 @@ import ascii_magic
 my_art = ascii_magic.from_image_file("logo.jpeg",char="#")
 broker_host = "broker.qubitro.com"
 broker_port = 8883
-device_id = "35db3e12-43b3-448d-906a-5d6904c34284"
-device_token = "05PSq9EoWvWui95X7d4YsYqnclJwNz3qLXmwMvJC"
+device_id = "bddb7c16-e724-4afc-be45-dfcc747f58f1"
+device_token = "geBnCgUFpD6yfk7i6I3te0gzClvtbxRiVPkWhiG0"
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
         ascii_magic.to_terminal(my_art)

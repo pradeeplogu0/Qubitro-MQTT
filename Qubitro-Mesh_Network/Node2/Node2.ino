@@ -45,6 +45,10 @@ void sendMessage () {
 // Needed for painless library
 void receivedCallback( uint32_t from, String &msg ) {
   Serial.println(msg.c_str());
+  digitalWrite(LED, HIGH);
+  delay(1000);                           // wait for 1 second.
+  digitalWrite(LED, LOW);                // turn the LED on.
+  delay(1000); // wait for 1 second.
 }
 
 void newConnectionCallback(uint32_t nodeId) {

@@ -11,7 +11,7 @@
 #define LED D0
 
 //Number for this node
-int nodeNumber = 2;
+int nodeNumber = 1;
 
 //String to send to other nodes with sensor readings
 String readings;
@@ -29,10 +29,10 @@ Task taskSendMessage(TASK_SECOND * 5 , TASK_FOREVER, &sendMessage);
 String getReadings () {
   JSONVar jsonReadings;
   jsonReadings["node"] = nodeNumber;
-  jsonReadings["Floor2_temp"] = rand() % 35 - 10 ;
-  jsonReadings["Floor2_humi"] = rand() % 55 - 10;
-  jsonReadings["Floor2_pres"] = rand() % 95 - 50;
-  jsonReadings["Floor2_Alti"] = rand() % 45 - 105;
+  jsonReadings["Floor1_temp"] = rand() % 35 - 10 ;
+  jsonReadings["Floor1_humi"] = rand() % 55 - 10;
+  jsonReadings["Floor1_pres"] = rand() % 95 - 50;
+  jsonReadings["Floor1_Alti"] = rand() % 45 - 105;
   readings = JSON.stringify(jsonReadings);
   return readings;
 }
