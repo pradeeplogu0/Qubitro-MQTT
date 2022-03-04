@@ -60,7 +60,7 @@ void loop() {
   mqttClient.endMessage();
 
   // Delay
-  delay(5000);
+  delay(3000);
   M5.Lcd.fillScreen(BLACK);
   M5.Lcd.setCursor(1, 3);
   M5.Lcd.print("I'm Groot ");
