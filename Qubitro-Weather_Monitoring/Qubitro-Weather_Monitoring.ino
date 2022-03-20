@@ -1,32 +1,29 @@
-#include <TinyGPS++.h>
-#include <QubitroMqttClient.h>
 #include <WiFi.h>
 #include <Wire.h>
-#include <ClosedCube_OPT3001.h> // Click here to get the library: http://librarymanager/All#OPT3001
+#include <TinyGPS++.h>
+#include <QubitroMqttClient.h>
+#include <ClosedCube_OPT3001.h>     // Click here to get the library: http://librarymanager/All#OPT3001
 #include <Adafruit_Sensor.h>
-#include <Adafruit_BME680.h> // Click to install library: http://librarymanager/All#Adafruit_BME680
+#include <Adafruit_BME680.h>       // Click to install library: http://librarymanager/All#Adafruit_BME680
 
-#define OPT3001_ADDRESS 0x44
-#define SEALEVELPRESSURE_HPA (1010.0)
 
 Adafruit_BME680 bme;
-ClosedCube_OPT3001 g_opt3001;
 TinyGPSPlus  gps;
-
-// WiFi Client
 WiFiClient wifiClient;
-// Qubitro Client
+ClosedCube_OPT3001 g_opt3001;
+#define OPT3001_ADDRESS 0x44
+#define SEALEVELPRESSURE_HPA (1010.0)
 QubitroMqttClient mqttClient(wifiClient);
 
+float Lat,Lng;
 double lux, luminosity;
-float Lat, Lng
 String  lat_str , lng_str;
 
-// Device Parameters
+// Device Parameters change as per yours
 char deviceID[] = "3726d909-47e5-42ae-b8da-a479ea7780aa";
 char deviceToken[] = "Hb6zA3E9AvJmWM8fSED1QGrRAX3OXDZevzjv5F9c";
 
-// WiFi Parameters
+// WiFi Parameters change as per yours
 const char* ssid = "ELDRADO";
 const char* password = "amazon123";
 
@@ -34,16 +31,12 @@ const char* password = "amazon123";
 void configureSensor()
 {
   OPT3001_Config newConfig;
-
   newConfig.RangeNumber = B1100;
   newConfig.ConvertionTime = B0;
   newConfig.Latch = B1;
   newConfig.ModeOfConversionOperation = B11;
-
   OPT3001_ErrorCode errorConfig = g_opt3001.writeConfig(newConfig);
-
   OPT3001_Config sensorConfig = g_opt3001.readConfig();
-
 }
 
 void opt3001_read_data()
@@ -85,7 +78,7 @@ void bme680_init()
   bme.setGasHeater(320, 150); // 320*C for 150 ms
 }
 
-void bme680_get()
+void get_readings()
 {
   Serial.print("Temperature = ");
   Serial.print(bme.temperature);
@@ -212,7 +205,7 @@ void setup()
   qubitro_init();
   time_t serial_timeout = millis();
   bme680_init();
-  /* opt3001 init */
+    /* opt3001 init */
   g_opt3001.begin(OPT3001_ADDRESS);
   configureSensor();
 }
@@ -240,7 +233,7 @@ void loop()
     Serial.println("Failed to perform reading :(");
     return;
   }
-  bme680_get();
-  delay(90000);
+  get_readings();
+  delay(60000);
   digitalWrite(2, LOW);
 }
