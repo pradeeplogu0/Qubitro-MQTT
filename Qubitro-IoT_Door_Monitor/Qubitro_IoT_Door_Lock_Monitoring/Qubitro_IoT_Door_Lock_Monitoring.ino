@@ -42,7 +42,7 @@ void loop() {
   val = digitalRead(inputPin); // read input value
   if (val == HIGH)
   { // check if the input is HIGH
-    digitalWrite(ledPin, LOW); // turn LED OFF
+    digitalWrite(ledPin, HIGH); // turn LED OFF
     String Status = "Open";
     int Rate = 100;
     // Send telemetry
@@ -56,7 +56,7 @@ void loop() {
   }
   else
   {
-    digitalWrite(ledPin, HIGH); // turn LED ON
+    digitalWrite(ledPin, LOW); // turn LED ON
     String Status = "Close";
     int Rate = 0;
     // Send telemetry
@@ -69,7 +69,7 @@ void loop() {
     Serial.println(payload);
   }
 
-  delay(2000);
+  delay(1000);
 }
 
 // Initialization code

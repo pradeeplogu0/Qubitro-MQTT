@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qubitro GPS Live Tracking</title>
+    <meta http-equiv="refresh" content="5">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<style>
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+@import url(https://fonts.googleapis.com/css?family=Advent+Pro:400,200);
+*{margin: 0;padding: 0;}
+ 
+body{
+  background:#072227;
+  font-family:Montserrat,Arial,sans-serif;
+}
+h2{
+  font-size:18px;
+}
+.split {
+  height: 95%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.left {
+  left: 0;
+  background-color: #111;
+}
+
+.right {
+  right: 0;
+  background-color: #111;
+  
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.widget{
+  box-shadow:0 40px 10px 5px rgba(0,0,0,0.4);
+  margin:100px auto;
+  height: 400px;
+  position: relative;
+  width: 950px;
+}
+ 
+.map{
+  box-shadow:0 40px 10px 5px rgba(0,0,0,0.4);
+  margin:100px auto;
+  height: 400px;
+  position: relative;
+  width: 800px;
+}
+.upper{
+  border-radius:5px 5px 0 0;
+  background:#f5f5f5;
+  height:200px;
+  padding:20px;
+}
+ 
+.date{
+  font-size:30px;
+}
+.year{
+  font-size:30px;
+  color:#c1c1c1;
+}
+.place{
+  color:#222;
+  font-size:40px;
+}
+.lower{
+  background:#4FBDBA;
+  border-radius:0 0 5px 5px;
+  font-family:'Advent Pro';
+  font-weight:200;
+  height:200px;
+  width:100%;
+}
+.clock{
+  background:#00A8A9;
+  border-radius:100%;
+  box-shadow:0 0 0 15px #f5f5f5,0 10px 10px 5px rgba(0,0,0,0.3);
+  height:150px;
+  position:absolute;
+  right:25px;
+  top:-35px;
+  width:150px;
+}
+ 
+.hour{
+  background:#f5f5f5;
+  height:50px;
+  left:50%;  
+  position: absolute;
+  top:25px;
+  width:4px;
+}
+ 
+.min{
+  background:#f5f5f5;
+  height:65px;
+  left:50%;  
+  position: absolute;
+  top:10px;
+  transform:rotate(100deg);
+  width:4px;
+}
+ 
+.min,.hour{
+  border-radius:5px;
+  transform-origin:bottom center;
+  transition:all .5s linear;
+}
+ 
+.infos{
+  list-style:none;
+}
+.info{
+  color:#fff;
+  float:left;
+  height:100%;
+  padding-top:10px;
+  text-align:center;
+  width:25%;
+}
+.info span{
+  display: inline-block;
+  font-size:40px;
+  margin-top:20px;
+}
+.weather p {
+  font-size:20px;padding:10px 0;
+}
+.anim{animation:fade .8s linear;}
+ 
+@keyframes fade{
+  0%{opacity:0;}
+  100%{opacity:1;}
+}
+ 
+a{
+ text-align: center;
+ text-decoration: none;
+ color: white;
+ font-size: 15px;
+ font-weight: 500;
+}
+
+</style>
+<body>
+     
+</body>
+<body>
+<div class="split right">  
+    
+<div class="widget"> 
+  
+  <div class="clock">
+    <div class="min" id="min"></div>
+    <div class="hour" id="hour"></div>
+  </div>
+  <div class="upper">
+    <div class="date" id="date">21 March</div>
+    <div class="year">Temperature</div>
+    <div class="place update" id="temperature"><%=data.temp%> &deg;C</div>
+  </div>
+ 
+  <div class="lower">    
+    <ul class="infos">
+      <li class="info temp">
+        <h2 class="title">Humidity</h2>
+        <span class='update' id="temp"><%=data.humi%> %</span>
+      </li>
+      <li class="info weather">
+        <h2 class="title">Pressure</h2>
+        <span class="update" id="pressure"><%=data.pres%> hpa</span>
+      </li>
+      <li class="info humidity">
+        <h2 class="title">Light</h2>
+        <span class='update' id="humidity"><%=data.light%> lux</span>
+      </li>
+      <li class="info wind">
+        <h2 class="title">Gas</h2>
+        <span class='update' id="rain"><%=data.gas%> KOhmss</span>
+      </li>
+
+    </ul>
+  </div>
+</div>
+</div>
+
+<script>
+setInterval(drawClock, 2000);
+    
+function drawClock(){
+    var now = new Date();
+    var hour = now.getHours();
+    var minute = now.getMinutes();
+    var second = now.getSeconds();
+    
+    //Date
+    var options = {year: 'numeric', month: 'long', day: 'numeric' };
+    var today  = new Date();
+    document.getElementById("date").innerHTML = today.toLocaleDateString("en-US", options);
+    
+    //hour
+    var hourAngle = (360*(hour/12))+((360/12)*(minute/60));
+    var minAngle = 360*(minute/60);
+    document.getElementById("hour").style.transform = "rotate("+(hourAngle)+"deg)";
+    //minute
+    document.getElementById("min").style.transform = "rotate("+(minAngle)+"deg)";
+
+}
+</script>
+
+<div class="split left">
+    <center>
+        <h1 style="color: white;">Live Tracking with RAKwireless and Qubitro</h1>
+        <p style="color: white;">---------------------------------------</p>
+        <iframe width="1000" height="850"src="http://maps.google.com/maps?q=<%=data.lat%>,<%=data.lng%>&z=15&output=embed"></iframe>
+    </center>
+    </div>
+
+
+</body>
+</html>
+
+</style>

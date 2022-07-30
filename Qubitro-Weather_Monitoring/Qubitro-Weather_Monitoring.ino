@@ -20,8 +20,8 @@ double lux, luminosity;
 String  lat_str , lng_str;
 
 // Device Parameters change as per yours
-char deviceID[] = "3726d909-47e5-42ae-b8da-a479ea7780aa";
-char deviceToken[] = "Hb6zA3E9AvJmWM8fSED1QGrRAX3OXDZevzjv5F9c";
+char deviceID[] = "3f95561f-2ca8-43b1-a1c4-d465553fcee8";
+char deviceToken[] = "S-Q2XKalS3mICpvnwmJa39s1-ExDYD3zoApwYDMM";
 
 // WiFi Parameters change as per yours
 const char* ssid = "ELDRADO";

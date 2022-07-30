@@ -1,0 +1,24 @@
+{
+  "name": "qubitromap",
+  "version": "0.0.1",
+  "description": "A simple map webview for Qubitro API",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "qubitro",
+    "map",
+    "gps",
+    "location"
+  ],
+  "author": "lintangwisesa",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.26.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.3"
+  }
+}

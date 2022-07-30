@@ -3,8 +3,8 @@ import json,time
 
 broker_host = "broker.qubitro.com"
 broker_port = 8883
-device_id = "3b7fb221-27d7-432e-a34b-1bb1cf90867c"
-device_token = "yySfFZ$kIKiVZ4BcVWI$rn7uZ5fYvbejcRhG23p1"
+device_id = "78a1a09e-f0c0-437d-b3f7-a2401acb41aa"
+device_token = "DasuQGCu0Ff85-bxl$MSlC0BsqZsQG$9aZtRdq$D"
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
         print("Connected to Qubitro!")
